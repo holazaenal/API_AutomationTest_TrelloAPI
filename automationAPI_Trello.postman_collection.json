@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "5ca01d9c-406d-4d87-9212-720dcd2909f5",
+		"name": "automationAPI_Trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23579217"
+	},
+	"item": [
+		{
+			"name": "Create a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"board_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"Board Created Succesfully\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Correct Board name\", function () {\r",
+							"    pm.expect(jsonData.name).to.eql(\"Board_Zaenal\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}1/boards/?key=afbc69cc8705866c4cf63969a135bf41&name=Board_Zaenal&token=ATTA3d453aca32d86e5b54d508c4ee99d326feca958bc18a12ba11d6dffec37108a92AABF600",
+					"host": [
+						"{{base_url}}1"
+					],
+					"path": [
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "afbc69cc8705866c4cf63969a135bf41"
+						},
+						{
+							"key": "name",
+							"value": "Board_Zaenal"
+						},
+						{
+							"key": "token",
+							"value": "ATTA3d453aca32d86e5b54d508c4ee99d326feca958bc18a12ba11d6dffec37108a92AABF600"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Board Deleted Succesfull\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}1/boards/{{board_id}}?key={{key}}&name=Board_Zaenal&token={{token}}",
+					"host": [
+						"{{base_url}}1"
+					],
+					"path": [
+						"boards",
+						"{{board_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "name",
+							"value": "Board_Zaenal"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"reasonable response time\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+					"});"
+				]
+			}
+		}
+	]
+}
